@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace ASPNET_WebHooks.FilterEvents
+namespace ASPNET_WebHooks.CustomWebHook
 {
     public class TestHandler : WebHookHandler
     {
