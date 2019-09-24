@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET WebHooks</h1>
+    <p class="lead">ASP.NET WebHooks using SQL Database</p>
+ </div>
+
+<form onsubmit="return subscribe()">
+    Subscribe to all events <input type="submit" value="submit">
+</form>
+<form onsubmit="return unsubscribe()">
+    Unsubscribe from all events <input type="submit" value="submit">
+</form>
+<form onsubmit="return notifymvc()">
+    Trigger notification through MVC controller <input type="submit" value="submit">
+</form>
+<form onsubmit="return notifyapi()">
+    Trigger notification through Web API controller <input type="submit" value="submit">
+</form>
+
+
+
+<script>
+    function subscribe() {
+        $.ajax({
+            type: "Post",
+            url: "/api/webhooks/registrations",
+            data: JSON.stringify({
+                WebHookUri: 'http://localhost:62906/api/webhooks/incoming/custom',
+                Secret: '12345678901234567890123456789012',
+                Description: 'My first WebHook!'
+              }),
+            contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+            success: function (data, status) {
+                debugger;
+                alert(data.Message ? data.Message : status);
+            },
+            error: function (errMsg) {
+                debugger;
+                alert(errMsg.responseJSON.Message);
+            }
+    });
+    return false;
+}
+
+    function unsubscribe() {
+        $.ajax({
+            url: '/api/webhooks/registrations',
+            type: 'DELETE',
+            success: function (data, status) { alert(data.Message ? data.Message : status); },
+            error: function (errMsg) { alert(errMsg.responseJSON.Message); }
+    });
+    return false;
+}
+
+    function notifymvc() {
+        $.post('/notify/submit',
+            {},
+            function (data, status) { alert('Data: '+ data + '\nStatus: ' + status); });
+        return false;
+    }
+
+    function notifyapi() {
+        $.post('/api/notifyapi',
+            {},
+            function (data, status) { alert('Data: ' + data + '\nStatus: ' + status); });
+        return false;
+    }
+</script>
