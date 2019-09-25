@@ -30,16 +30,17 @@
             data: JSON.stringify({
                 WebHookUri: 'http://localhost:62906/api/webhooks/incoming/custom',
                 Secret: '12345678901234567890123456789012',
-                Description: 'My first WebHook!'
+                Description: 'My first WebHook!',
+                Filters: ["event2"]    // Remove 'Filters' for all event. By default -> ["*"] for all events.
               }),
             contentType: 'application/json; charset=utf-8',
         dataType: 'json',
             success: function (data, status) {
-                debugger;
-                alert(data.Message ? data.Message : status);
+               
+                alert(status);
             },
             error: function (errMsg) {
-                debugger;
+               
                 alert(errMsg.responseJSON.Message);
             }
     });
@@ -59,14 +60,20 @@
     function notifymvc() {
         $.post('/notify/submit',
             {},
-            function (data, status) { alert('Data: '+ data + '\nStatus: ' + status); });
+            function (data, status) {
+                debugger;
+                alert('Status: ' + status);
+            });
         return false;
     }
 
     function notifyapi() {
         $.post('/api/notifyapi',
             {},
-            function (data, status) { alert('Data: ' + data + '\nStatus: ' + status); });
+            function (data, status) {
+                debugger;
+                alert('Status: ' + status);
+            });
         return false;
     }
 </script>
